@@ -3,6 +3,17 @@ import styles from './Add-Edit-Location.module.css';
 
 export default class AddEditLocation extends PureComponent {
 
+    state = {
+        location: {}
+    }
+
+    // static getDerivedStateFromProps(props, state) {
+    //     if (props.location) {
+    //         this.setState({ location: props.location });
+    //     }
+    //     return state;
+    // }
+
     render() {
         return (
             <div className='row add-loc'>

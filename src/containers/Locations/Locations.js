@@ -16,7 +16,7 @@ class Locations extends Component {
     }
 
     addLocationClickHandler = () => {
-        // toggling showAddEditModal from its last state 
+        // toggling showAddEditModal from its last state
         this.setState((prevState, props) => {
             return {
                 locations: [],
@@ -26,8 +26,14 @@ class Locations extends Component {
         });
     }
 
-    saveLocationHandler = () => {
+    closeAddEditModal = () => {
+        this.setState({
+            showAddEditModal: false,
+        })
+    }
 
+    saveLocationHandler = (location) => {
+        console.log('from Save ' + location);
     }
 
     render() {
@@ -48,24 +54,25 @@ class Locations extends Component {
                                 <span>{loc}</span>
                             ))}
                             <Header onAddLocClick={this.addLocationClickHandler}></Header>
-                            <div>
-                                {
-                                    !this.state.locations || this.state.locations.length < 1
-                                        ? <NoLocation></NoLocation>
-                                        : this.state.locations.map(location =>
-                                            <LocationListing location={location}></LocationListing>
-                                        )
-                                }
-                                <Modal handleSave={this.saveLocationHandler}
-                                    handleClose={this.addLocationClickHandler}
-                                    show={this.state.showAddEditModal}>
-                                    <AddEditLocation></AddEditLocation>
-                                </Modal>
-                            </div>
+                            {
+                                !this.state.locations || this.state.locations.length < 1
+                                    ? <NoLocation></NoLocation>
+                                    : this.state.locations.map(location =>
+                                        <LocationListing location={location}></LocationListing>
+                                    )
+                            }
+                            <Modal
+                                handleSave={this.saveLocationHandler}
+                                handleClose={this.closeAddEditModal}
+                                show={this.state.showAddEditModal}>
+                                <AddEditLocation>
+                                </AddEditLocation>
+                            </Modal>
                         </div>
                     );
-                }}
-            </AccessDB>
+                }
+                }
+            </AccessDB >
         );
     }
 }

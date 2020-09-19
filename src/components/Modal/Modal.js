@@ -9,7 +9,7 @@ const modal = ({ handleSave, handleClose, show, children }) => {
                 {children}
                 <div className='action'>
                     <button onClick={handleClose} className='btn btn-danger'>Cancel</button>
-                    <button onClick={handleSave} className='btn btn-primary'>Save</button>
+                    <button onClick={() => { handleSave('abc') }} className='btn btn-primary'>Save</button>
                 </div>
             </section>
         </div>
