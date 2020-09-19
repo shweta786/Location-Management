@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import Modal from '../../components/Modal/Modal';
 import AddEditLocation from '../Add-edit-location/Add-Edit-Location';
 import LocationListing from '../Location-Listing/Location-Listing'
+import Aux from '../../hoc/Auxilliary'
 
 class Locations extends Component {
 
@@ -32,25 +33,6 @@ class Locations extends Component {
         })
     }
 
-    saveLocationHandler = (location) => {
-        console.log('from Save ' + location);
-        // .add({
-        //     'abc': 'locationName', 'i m address1': 'address1',
-        //     'i m address2': 'address2', 'erg': 'suite',
-        //     'Ohio': 'city', 'Cincinnati': 'state',
-        //     '103044': 'zipCode', '999234999': 'phone',
-        //     'xyz': 'timeZone', 'fefef': 'facilityTime',
-        //     'www': 'appointment'
-        // }).then(
-        //     event => {
-        //         console.log('ID Generated: ', event.target.result);
-        //     },
-        //     error => {
-        //         console.log(error);
-        //     }
-        // );
-    }
-
     render() {
         return (
             <AccessDB objectStore="locations">
@@ -65,20 +47,44 @@ class Locations extends Component {
                     );
                     return (
                         <div className={styles.container}>
-                            {this.state.locations.map(loc => (
-                                <span>{loc}</span>
-                            ))}
+                            
                             <Header onAddLocClick={this.addLocationClickHandler}></Header>
                             {
                                 !this.state.locations || this.state.locations.length < 1
                                     ? <NoLocation></NoLocation>
-                                    : this.state.locations.map(location =>
-                                        <LocationListing location={location}></LocationListing>
-                                    )
+                                    : <Aux>
+                                        <div className='row loc-list'>
+                                            <div className='col s1'>
+                                            </div>
+                                            <div className='col s3'>
+                                                <b>Location Name</b>
+                                            </div>
+                                            <div className='col s3'>
+                                                <b>Address</b>
+                                            </div>
+                                            <div className='col s3'>
+                                                <b>Phone No.</b>
+                                            </div>
+                                            <div className='col s2'>
+                                            </div>
+                                        </div>
+                                        {this.state.locations.map((loc, index) =>
+                                            <LocationListing
+                                                location={loc}
+                                                index={index}
+                                                key={loc.locationId} />)
+                                        }
+                                        <div className='row loc-list'>
+                                            <span>
+                                                Items Per Page 10
+                                            </span>
+                                        </div>
+                                    </Aux>
                             }
+
                             <AccessDB objectStore="locations">
                                 {({ add }) => {
-                                    const handleClick = () => {
+                                    const saveLocationHandler = (locationToAdd) => {
                                         add({
                                             'locationName': 'locationName', 'address1': 'address1',
                                             'address2': 'address2', 'suite': 'suite',
@@ -88,16 +94,17 @@ class Locations extends Component {
                                             'appointment': 'appointment'
                                         }).then(
                                             event => {
-                                                console.log('ID Generated: ', event.target.result);
+                                                console.log('ID Generated: ', event);
                                             },
                                             error => {
+                                                alert('Error occurred while saving data in DB');
                                                 console.log(error);
                                             }
                                         );
                                     };
 
                                     return <Modal
-                                        handleSave={handleClick}
+                                        handleSave={saveLocationHandler}
                                         handleClose={this.closeAddEditModal}
                                         show={this.state.showAddEditModal}>
                                         <AddEditLocation>
@@ -105,7 +112,6 @@ class Locations extends Component {
                                     </Modal>
                                     // return <button onClick={handleClick}>Add</button>;
                                 }}
-
                             </AccessDB>;
 
                         </div>
