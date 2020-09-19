@@ -7,12 +7,12 @@ export default class AddEditLocation extends PureComponent {
         location: {}
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.location) {
-    //         this.setState({ location: props.location });
-    //     }
-    //     return state;
-    // }
+    static getDerivedStateFromProps(props, state) {
+        if (props.location) {
+            this.setState({ location: props.location });
+        }
+        return state;
+    }
 
     render() {
         return (
@@ -21,7 +21,8 @@ export default class AddEditLocation extends PureComponent {
                 <form className="col s12">
                     <div className="row">
                         <div className="input-field col s12">
-                            <input id="loc-name" type="text" className="validate"></input>
+                            <input id="loc-name" type="text" className="validate"
+                                value={this.state.location.locationName}></input>
                             <label htmlFor="loc-name">Location Name</label>
                         </div>
                     </div>

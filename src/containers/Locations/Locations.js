@@ -34,6 +34,21 @@ class Locations extends Component {
 
     saveLocationHandler = (location) => {
         console.log('from Save ' + location);
+        // .add({
+        //     'abc': 'locationName', 'i m address1': 'address1',
+        //     'i m address2': 'address2', 'erg': 'suite',
+        //     'Ohio': 'city', 'Cincinnati': 'state',
+        //     '103044': 'zipCode', '999234999': 'phone',
+        //     'xyz': 'timeZone', 'fefef': 'facilityTime',
+        //     'www': 'appointment'
+        // }).then(
+        //     event => {
+        //         console.log('ID Generated: ', event.target.result);
+        //     },
+        //     error => {
+        //         console.log(error);
+        //     }
+        // );
     }
 
     render() {
@@ -61,13 +76,38 @@ class Locations extends Component {
                                         <LocationListing location={location}></LocationListing>
                                     )
                             }
-                            <Modal
-                                handleSave={this.saveLocationHandler}
-                                handleClose={this.closeAddEditModal}
-                                show={this.state.showAddEditModal}>
-                                <AddEditLocation>
-                                </AddEditLocation>
-                            </Modal>
+                            <AccessDB objectStore="locations">
+                                {({ add }) => {
+                                    const handleClick = () => {
+                                        add({
+                                            'locationName': 'locationName', 'address1': 'address1',
+                                            'address2': 'address2', 'suite': 'suite',
+                                            'city': 'city', 'state': 'state',
+                                            'zipCode': '103044', 'phone': '2847894289',
+                                            'timeZone': 'timeZone', 'facilityTime': 'facilityTime',
+                                            'appointment': 'appointment'
+                                        }).then(
+                                            event => {
+                                                console.log('ID Generated: ', event.target.result);
+                                            },
+                                            error => {
+                                                console.log(error);
+                                            }
+                                        );
+                                    };
+
+                                    return <Modal
+                                        handleSave={handleClick}
+                                        handleClose={this.closeAddEditModal}
+                                        show={this.state.showAddEditModal}>
+                                        <AddEditLocation>
+                                        </AddEditLocation>
+                                    </Modal>
+                                    // return <button onClick={handleClick}>Add</button>;
+                                }}
+
+                            </AccessDB>;
+
                         </div>
                     );
                 }
