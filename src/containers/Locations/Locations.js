@@ -3,8 +3,9 @@ import { AccessDB } from 'react-indexed-db';
 import styles from './Locations.module.css'
 import NoLocation from '../../components/No-Location/No-Location';
 import Header from '../../components/Header/Header';
-import Modal from '../../components/Modal/Modal'
-import AddEditLocation from '../Add-edit-location/Add-Edit-Location'
+import Modal from '../../components/Modal/Modal';
+import AddEditLocation from '../Add-edit-location/Add-Edit-Location';
+import LocationListing from '../Location-Listing/Location-Listing'
 
 class Locations extends Component {
 
@@ -47,13 +48,20 @@ class Locations extends Component {
                                 <span>{loc}</span>
                             ))}
                             <Header onAddLocClick={this.addLocationClickHandler}></Header>
-                            <NoLocation></NoLocation>
-
-                            <Modal handleSave={this.saveLocationHandler}
-                                handleClose={this.addLocationClickHandler}
-                                show={this.state.showAddEditModal}>
-                                <AddEditLocation></AddEditLocation>
-                            </Modal>
+                            <div>
+                                {
+                                    !this.state.locations || this.state.locations.length < 1
+                                        ? <NoLocation></NoLocation>
+                                        : this.state.locations.map(location =>
+                                            <LocationListing location={location}></LocationListing>
+                                        )
+                                }
+                                <Modal handleSave={this.saveLocationHandler}
+                                    handleClose={this.addLocationClickHandler}
+                                    show={this.state.showAddEditModal}>
+                                    <AddEditLocation></AddEditLocation>
+                                </Modal>
+                            </div>
                         </div>
                     );
                 }}
