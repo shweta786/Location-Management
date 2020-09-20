@@ -37,8 +37,11 @@ export default class AddEditLocation extends Component {
         var k = event ? event.which : window.event.keyCode;
         // KeyCode for comma is 188
         if (k === 188) {
-            this.appointmentTags.push(this.state.newAppointmentInput.slice(0, -1))
-            this.onChangeHandler(this.appointmentTags.join(','), 'appointment');
+            let toAdd = this.state.newAppointmentInput.slice(0, -1);
+            if (toAdd.trim().length > 0) {
+                this.appointmentTags.push(this.state.newAppointmentInput.slice(0, -1))
+                this.onChangeHandler(this.appointmentTags.join(','), 'appointment');
+            }
             this.setState({ newAppointmentInput: '' });
         }
         if (!k) {
@@ -207,17 +210,19 @@ export default class AddEditLocation extends Component {
                             </label>
                         </div>
                         <div className="input-field col s6 tl">
-                            {
-                                this.appointmentTags.map((tag, index) =>
-                                    <span className='tag-item' key={index}>
-                                        {tag}
-                                        <span className="remove-tag"
-                                            onClick={() => { this.removeTagHandler(index) }}>
-                                            ×
+                            <div className='fix-height'>
+                                {
+                                    this.appointmentTags.map((tag, index) =>
+                                        <span className='tag-item' key={index}>
+                                            {tag}
+                                            <span className="remove-tag"
+                                                onClick={() => { this.removeTagHandler(index) }}>
+                                                ×
                                         </span>
-                                    </span>
-                                )
-                            }
+                                        </span>
+                                    )
+                                }
+                            </div>
                             <input id="pool" className="validate" value={this.state.newAppointmentInput}
                                 onChange={($event) => this.appointmentPoolHandler($event)}
                                 onKeyUp={($event) => { this.appointmentPoolHandler($event) }}>

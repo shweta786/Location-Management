@@ -114,3 +114,8 @@ img {
     padding-left: 5px;
     cursor: pointer;
 }
+
+.fix-height {
+    max-height: 100px;
+    overflow-y: auto;
+}

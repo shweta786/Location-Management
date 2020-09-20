@@ -38,10 +38,10 @@ class Locations extends Component {
         })
     }
 
-    shouldComponentUpdate(prevProp, prevState) {
-        if (prevState.locations.length !== this.state.locations.length ||
-            prevState.showAddEditModal !== this.state.showAddEditModal ||
-            prevState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
+    shouldComponentUpdate(nextProp, nextState) {
+        if (nextState.locations !== this.state.locations ||
+            nextState.showAddEditModal !== this.state.showAddEditModal ||
+            nextState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
             return true;
         return false;
     }
