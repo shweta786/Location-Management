@@ -5,28 +5,50 @@ import styles from './Add-Edit-Location.module.css';
 export default class AddEditLocation extends Component {
 
     state = {
-        location: {}
+        location: {},
+        newAppointmentInput: ''
     }
+
+    appointmentTags = [];
 
     componentDidMount() {
         if (this.props.location && this.props.location.locationId) {
             this.setState({ location: this.props.location })
+            this.appointmentTags = this.props.location.appointment ? this.props.location.appointment.split(',') : [];
         } else {
             this.setState({ location: {} })
         }
     }
 
-    onChangeHandler(event, fieldName) {
+    onChangeHandler = (event, fieldName) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.location));
         locationDup[fieldName] = event && event.target ? event.target.value : event;
         this.setState({ location: locationDup });
     }
 
-    zipCodeMasking(event) {
+    zipCodeMasking = (event) => {
         var k = event ? event.which : window.event.keyCode;
         if (k === 32 || (this.state.location.zipCode && this.state.location.zipCode.length >= 10)) {
             event.preventDefault();
         }
+    }
+
+    appointmentPoolHandler = (event) => {
+        var k = event ? event.which : window.event.keyCode;
+        // KeyCode for comma is 188
+        if (k === 188) {
+            this.appointmentTags.push(this.state.newAppointmentInput.slice(0, -1))
+            this.onChangeHandler(this.appointmentTags.join(','), 'appointment');
+            this.setState({ newAppointmentInput: '' });
+        }
+        if (!k) {
+            this.setState({ newAppointmentInput: event.target.value });
+        }
+    }
+
+    removeTagHandler = (index) => {
+        this.appointmentTags.splice(index, 1)
+        this.onChangeHandler(this.appointmentTags.join(','), 'appointment');
     }
 
     render() {
@@ -152,28 +174,10 @@ export default class AddEditLocation extends Component {
                                 Zip Code
                             </label>
                         </div>
-                        {/* <div className="input-field col s3">
-                            <input id="phone" type="number" className="validate"
-                                value={this.state.location.phone || ''}
-                                onChange={($event) => { this.onChangeHandler($event, 'phone') }}>
-                            </input>
-                            <label htmlFor="phone" className={this.state.location.phone ? 'active' : ''}>
-                                Phone Number
-                            </label>
-                        </div> */}
                         <div className="input-field col s3">
-                            <PhoneInput
-                                country="US"
-                                maxLength="14"
-                                value={this.state.location.phone}
-                                onChange={($event) => {
-                                    this.onChangeHandler($event, "phone");
-                                }}
-                            />
-                            <label
-                                htmlFor="phone"
-                                className={this.state.location.phone ? "active" : ""}
-                            >
+                            <PhoneInput country="US" maxLength="14" value={this.state.location.phone}
+                                onChange={($event) => { this.onChangeHandler($event, "phone") }} />
+                            <label htmlFor="phone" className={this.state.location.phone ? "active" : ""}>
                                 Phone Number
                             </label>
                         </div>
@@ -202,11 +206,24 @@ export default class AddEditLocation extends Component {
                                 Facility Time
                             </label>
                         </div>
-                        <div className="input-field col s6">
-                            <input id="pool" className="validate" value={this.state.location.appointment || ''}
-                                onChange={($event) => { this.onChangeHandler($event, 'appointment') }}>
+                        <div className="input-field col s6 tl">
+                            {
+                                this.appointmentTags.map((tag, index) =>
+                                    <span className='tag-item' key={index}>
+                                        {tag}
+                                        <span className="remove-tag"
+                                            onClick={() => { this.removeTagHandler(index) }}>
+                                            ×
+                                        </span>
+                                    </span>
+                                )
+                            }
+                            <input id="pool" className="validate" value={this.state.newAppointmentInput}
+                                onChange={($event) => this.appointmentPoolHandler($event)}
+                                onKeyUp={($event) => { this.appointmentPoolHandler($event) }}>
                             </input>
-                            <label htmlFor="pool" className={this.state.location.appointment ? 'active' : ''}>
+                            <label htmlFor="pool" className={this.state.location.appointment
+                                || this.state.newAppointmentInput.trim().length > 0 ? 'active' : ''}>
                                 Appointment Pool
                             </label>
                         </div>

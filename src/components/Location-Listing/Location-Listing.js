@@ -17,8 +17,8 @@ export default class LocationListing extends Component {
                         {this.props.location.locationName}
                     </div>
                     <div className='col s4 tl'>
-                        {this.props.location.address1},{this.props.location.address2},
-                        {this.props.location.city},{this.props.location.state}, US
+                        {this.props.location.address1} {this.props.location.address2}
+                        {this.props.location.city} {this.props.location.state} (US)
                     </div>
                     <div className='col s3'>
                         {this.props.location.phone}

@@ -5,7 +5,7 @@ import NoLocation from '../../components/No-Location/No-Location';
 import Header from '../../components/Header/Header';
 import Modal from '../../components/Modal/Modal';
 import AddEditLocation from '../Add-edit-location/Add-Edit-Location';
-import LocationListing from '../Location-Listing/Location-Listing'
+import LocationListing from '../../components/Location-Listing/Location-Listing'
 import Aux from '../../hoc/Auxilliary'
 
 class Locations extends Component {
@@ -159,7 +159,7 @@ class Locations extends Component {
                                             }).then(
                                                 event => {
                                                     this.closeAddEditModal();
-                                                    alert('Location Updated successfully');
+                                                    // alert('Location Updated successfully');
                                                 },
                                                 error => {
                                                     alert('Error occurred while updating data in DB');
