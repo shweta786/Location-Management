@@ -7,6 +7,7 @@ function App() {
 
   return (
     
+    // Initializing indexed DB
     <IndexedDB name="MyDB"
       version={1}
       objectStoresMeta={[

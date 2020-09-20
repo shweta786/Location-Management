@@ -13,7 +13,7 @@ export default class AddEditLocation extends Component {
         showFacilityTimeModal: false
     }
 
-    appointmentTags = [];
+    appointmentTags = []; //for creating tag in appointment pool input
 
     componentDidMount() {
         if (this.props.location && this.props.location.locationId) {
@@ -32,12 +32,14 @@ export default class AddEditLocation extends Component {
         return false;
     }
 
+    // change handler when some input changes
     onChangeHandler = (event, fieldName) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.location));
         locationDup[fieldName] = event && event.target ? event.target.value : event;
         this.setState({ location: locationDup });
     }
 
+    // For masking zip code
     zipCodeMasking = (event) => {
         var k = event ? event.which : window.event.keyCode;
         if (k === 32 || (this.state.location.zipCode && this.state.location.zipCode.length >= 10)) {
@@ -45,6 +47,7 @@ export default class AddEditLocation extends Component {
         }
     }
 
+    // For making tags for appointment pool input
     appointmentPoolHandler = (event) => {
         var k = event ? event.which : window.event.keyCode;
         // KeyCode for comma is 188
@@ -61,18 +64,23 @@ export default class AddEditLocation extends Component {
         }
     }
 
+    // Remove a tag from appointment pool
     removeTagHandler = (index) => {
         this.appointmentTags.splice(index, 1)
         this.onChangeHandler(this.appointmentTags.join(','), 'appointment');
     }
 
+    // to Open modal on facilityTime click
     addEditFacilityTimeClickHandler = () => {
         this.setState({ showFacilityTimeModal: true });
     }
+
+    // Close facility time modal
     closeFacilityTimeModal = () => {
         this.setState({ showFacilityTimeModal: false });
     }
 
+    // To update location in state for latest value of facility time
     saveFacilityTime = (facTime) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.location));
         locationDup.facilityTime = facTime
@@ -85,6 +93,7 @@ export default class AddEditLocation extends Component {
             <Aux>
                 <div className='row add-loc'>
                     <span className={styles.text}>{this.state.location.locationId ? 'Edit' : 'Add'} Location</span>
+
                     <form className="col s12">
                         <div className="row">
                             <div className="input-field col s12">
@@ -96,6 +105,7 @@ export default class AddEditLocation extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="row">
                             <div className="input-field col s6">
                                 <input id="address-1" className="validate" value={this.state.location.address1 || ''}
@@ -114,6 +124,7 @@ export default class AddEditLocation extends Component {
                             </label>
                             </div>
                         </div>
+
                         <div className="row">
                             <div className="input-field col s6">
                                 <input id="address-2" className="validate" value={this.state.location.address2 || ''}
@@ -192,6 +203,7 @@ export default class AddEditLocation extends Component {
                             </label>
                             </div>
                         </div>
+
                         <div className="row">
                             <div className="input-field col s3">
                                 <input id="zip" type="text" className="validate"
@@ -205,11 +217,11 @@ export default class AddEditLocation extends Component {
                             </label>
                             </div>
                             <div className="input-field col s3">
-                                <PhoneInput country="US" maxLength="14" value={this.state.location.phone}
+                                <PhoneInput id='phone' country="US" maxLength="14" value={this.state.location.phone}
                                     onChange={($event) => { this.onChangeHandler($event, "phone") }} />
                                 <label htmlFor="phone" className={this.state.location.phone ? "active" : ""}>
                                     Phone Number
-                            </label>
+                                    </label>
                             </div>
                             <div className="input-field col s6">
                                 <select id='zone' className='browser-default' value={this.state.location.timeZone || ''}
@@ -227,6 +239,7 @@ export default class AddEditLocation extends Component {
                             </label>
                             </div>
                         </div>
+
                         <div className="row">
                             <div className="input-field col s6">
                                 <input id="time" className="validate" onClick={this.addEditFacilityTimeClickHandler}>
@@ -255,11 +268,12 @@ export default class AddEditLocation extends Component {
                                 </input>
                                 <label htmlFor="pool" className={this.state.location.appointment
                                     || this.state.newAppointmentInput.trim().length > 0 ? 'active' : ''}>
-                                    Appointment Pool
+                                    Appointment Pool(press Enter or , after each tag)
                             </label>
                             </div>
                         </div>
                     </form>
+
                     <div className='action'>
                         <button onClick={this.props.handleClose} className='btn btn-danger'>Cancel</button>
                         <button onClick={() => { this.props.handleSave(this.state.location) }} className='btn btn-primary'

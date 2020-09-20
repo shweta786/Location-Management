@@ -84,6 +84,7 @@ export default class FacilityTime extends PureComponent {
         }
     }
 
+    // for handling input checkbox
     updateChecks = (key, value) => {
         let dupCheckedEle = JSON.parse(JSON.stringify(this.state.checkedEle));
         dupCheckedEle[key] = value;
@@ -92,6 +93,7 @@ export default class FacilityTime extends PureComponent {
         });
     }
 
+    // to update state's facility time when text changes
     handleTextChange = (day, param, event) => {
         let ftDup = JSON.parse(JSON.stringify(this.state.facilityTime));
         ftDup[day][param].val = event && event.target ? event.target.value : event;
@@ -100,6 +102,7 @@ export default class FacilityTime extends PureComponent {
         });
     }
 
+    // Check and ensures required format
     checkFormat = (day, param) => {
         let val = this.state.facilityTime[day][param].val;
 
@@ -163,6 +166,7 @@ export default class FacilityTime extends PureComponent {
         }
     }
 
+    // To handle apply to all checked click
     applyToAllChecked = (day) => {
         let dupFacilityTime = JSON.parse(JSON.stringify(this.state.facilityTime));
         let toCopy = JSON.parse(JSON.stringify(this.state.facilityTime[day]));
