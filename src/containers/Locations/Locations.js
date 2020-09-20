@@ -21,6 +21,8 @@ class Locations extends Component {
         this.setState({ showAddEditModal: true });
         if (location && location.locationId) {
             this.setState({ locationToEdit: location });
+        } else {
+            this.setState({ locationToEdit: {} });
         }
     }
 
