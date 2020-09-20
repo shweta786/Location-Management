@@ -106,12 +106,12 @@ class Locations extends Component {
                                             );
                                         };
 
-                                        return this.state.showAddEditModal ? <Modal
-                                            handleSave={saveLocationHandler}
-                                            handleClose={this.closeAddEditModal}
-                                            show={this.state.showAddEditModal}>
-                                            <AddEditLocation location={{}} />
-                                        </Modal> : null
+                                        return this.state.showAddEditModal ?
+                                            <Modal>
+                                                <AddEditLocation location={{}}
+                                                    handleSave={saveLocationHandler}
+                                                    handleClose={this.closeAddEditModal} />
+                                            </Modal> : null
                                     }
 
                                     // EDIT LOCATION CASE
@@ -120,10 +120,10 @@ class Locations extends Component {
                                             update({
                                                 'locationId': this.state.locationToEdit.locationId,
                                                 'locationName': 'locationNameDUP', 'address1': 'address1DUP',
-                                                'address2DUP': 'address2', 'suite': 'suiteDUP',
+                                                'address2': 'address2DUP', 'suite': 'suiteDUP',
                                                 'city': 'cityDUP', 'state': 'stateDUP',
                                                 'zipCode': '10304400', 'phone': '284789428900',
-                                                'timeZone': 'timeZoneDUP', 'facilityTime': 'facilityTimeDUP',
+                                                'timeZone': 'Pacific Daylight(GMT-8)', 'facilityTime': 'facilityTimeDUP',
                                                 'appointment': 'appointmentDUP'
                                             }).then(
                                                 event => {
@@ -137,12 +137,12 @@ class Locations extends Component {
                                             );
                                         };
 
-                                        return this.state.showAddEditModal ? <Modal
-                                            handleSave={saveLocationHandler}
-                                            handleClose={this.closeAddEditModal}
-                                            show={this.state.showAddEditModal}>
-                                            <AddEditLocation location={this.state.locationToEdit} />
-                                        </Modal> : null
+                                        return this.state.showAddEditModal ?
+                                            <Modal>
+                                                <AddEditLocation location={this.state.locationToEdit}
+                                                    handleSave={saveLocationHandler}
+                                                    handleClose={this.closeAddEditModal} />
+                                            </Modal> : null
                                     }
                                 }
 
