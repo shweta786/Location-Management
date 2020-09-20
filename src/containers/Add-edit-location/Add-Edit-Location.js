@@ -36,7 +36,7 @@ export default class AddEditLocation extends Component {
     appointmentPoolHandler = (event) => {
         var k = event ? event.which : window.event.keyCode;
         // KeyCode for comma is 188
-        if (k === 188) {
+        if (k === 188 || k === 13) {
             let toAdd = this.state.newAppointmentInput.slice(0, -1);
             if (toAdd.trim().length > 0) {
                 this.appointmentTags.push(this.state.newAppointmentInput.slice(0, -1))
