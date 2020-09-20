@@ -26,10 +26,24 @@ class Locations extends Component {
         }
     }
 
+    removeLocationFromList = (index) => {
+        let locationDup = JSON.parse(JSON.stringify(this.state.locations));
+        locationDup.splice(index, 1);
+        this.setState({ locations: locationDup });
+    }
+
     closeAddEditModal = () => {
         this.setState({
             showAddEditModal: false,
         })
+    }
+
+    shouldComponentUpdate(prevProp, prevState) {
+        if (prevState.locations.length !== this.state.locations.length ||
+            prevState.showAddEditModal !== this.state.showAddEditModal ||
+            prevState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
+            return true;
+        return false;
     }
 
     render() {
@@ -38,6 +52,10 @@ class Locations extends Component {
                 {({ getAll }) => {
                     getAll().then(
                         locationFromDB => {
+                            if (locationFromDB) {
+                                locationFromDB = locationFromDB.sort(
+                                    (a, b) => (a.locationName.toLowerCase() > b.locationName.toLowerCase()) ? 1 : -1);
+                            }
                             this.setState({ locations: locationFromDB });
                         },
                         error => {
@@ -72,7 +90,8 @@ class Locations extends Component {
                                                 location={loc}
                                                 index={index}
                                                 key={loc.locationId}
-                                                onEditClick={this.addEditLocationClickHandler} />
+                                                onEditClick={this.addEditLocationClickHandler}
+                                                afterDelete={this.removeLocationFromList} />
                                         )}
                                         <div className='row loc-list'>
                                             <span>

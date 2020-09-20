@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
+import PhoneInput from "react-phone-number-input/input";
 import styles from './Add-Edit-Location.module.css';
 
 export default class AddEditLocation extends Component {
 
-    location = {};
+    state = {
+        location: {}
+    }
 
     componentDidMount() {
         if (this.props.location && this.props.location.locationId) {
-            this.location = this.props.location;
+            this.setState({ location: this.props.location })
         } else {
-            this.location = {};
+            this.setState({ location: {} })
         }
     }
 
     onChangeHandler(event, fieldName) {
-        this.location[fieldName] = event.target.value;
+        let locationDup = JSON.parse(JSON.stringify(this.state.location));
+        locationDup[fieldName] = event && event.target ? event.target.value : event;
+        this.setState({ location: locationDup });
     }
 
     zipCodeMasking(event) {
         var k = event ? event.which : window.event.keyCode;
-        if (k === 32 || (this.location.zipCode && this.location.zipCode.length >= 10)) {
+        if (k === 32 || (this.state.location.zipCode && this.state.location.zipCode.length >= 10)) {
             event.preventDefault();
         }
     }
@@ -27,55 +32,55 @@ export default class AddEditLocation extends Component {
     render() {
         return (
             <div className='row add-loc'>
-                <span className={styles.text}>{this.location.locationId ? 'Edit' : 'Add'} Location</span>
+                <span className={styles.text}>{this.state.location.locationId ? 'Edit' : 'Add'} Location</span>
                 <form className="col s12">
                     <div className="row">
                         <div className="input-field col s12">
-                            <input id="loc-name" className="validate" value={this.location.locationName || ''}
+                            <input id="loc-name" className="validate" value={this.state.location.locationName || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'locationName') }}></input>
                             <label htmlFor="loc-name"
-                                className={this.location.locationName ? 'active required' : 'required'}>
+                                className={this.state.location.locationName ? 'active required' : 'required'}>
                                 Location Name <span className='required'>*</span>
                             </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
-                            <input id="address-1" className="validate" value={this.location.address1 || ''}
+                            <input id="address-1" className="validate" value={this.state.location.address1 || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'address1') }}>
                             </input>
-                            <label htmlFor="address-1" className={this.location.address1 ? 'active' : ''}>
+                            <label htmlFor="address-1" className={this.state.location.address1 ? 'active' : ''}>
                                 Address Line 1
                             </label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="suite" className="validate" value={this.location.suite || ''}
+                            <input id="suite" className="validate" value={this.state.location.suite || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'suite') }}>
                             </input>
-                            <label htmlFor="suite" className={this.location.suite ? 'active' : ''}>
+                            <label htmlFor="suite" className={this.state.location.suite ? 'active' : ''}>
                                 Suite No.
                             </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
-                            <input id="address-2" className="validate" value={this.location.address2 || ''}
+                            <input id="address-2" className="validate" value={this.state.location.address2 || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'address2') }}>
                             </input>
-                            <label htmlFor="address-2" className={this.location.address2 ? 'active' : ''}>
+                            <label htmlFor="address-2" className={this.state.location.address2 ? 'active' : ''}>
                                 Address Line 2
                             </label>
                         </div>
                         <div className="input-field col s3">
-                            <input id="city" className="validate" value={this.location.city || ''}
+                            <input id="city" className="validate" value={this.state.location.city || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'city') }}>
                             </input>
-                            <label htmlFor="city" className={this.location.city ? 'active' : ''}>
+                            <label htmlFor="city" className={this.state.location.city ? 'active' : ''}>
                                 City
                             </label>
                         </div>
                         <div className="input-field col s3">
-                            <select id="state" className='browser-default' value={this.location.state || ''}
+                            <select id="state" className='browser-default' value={this.state.location.state || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'state') }}>
                                 <option value="">Choose State</option>
                                 <option value="Alabama">Alabama</option>
@@ -137,27 +142,43 @@ export default class AddEditLocation extends Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s3">
-                            <input id="zip" type="text" className="validate" pattern='[A-Za-z0-9]'
+                            <input id="zip" type="text" className="validate"
                                 title='5 to 10 alphanumeric characters allowed with no space'
-                                maxLength='10' value={this.location.zipCode || ''}
+                                maxLength='10' value={this.state.location.zipCode || ''}
                                 onKeyPress={($event) => this.zipCodeMasking($event)}
                                 onChange={($event) => { this.onChangeHandler($event, 'zipCode') }}>
                             </input>
-                            <label htmlFor="zip" className={this.location.zipCode ? 'active' : ''}>
+                            <label htmlFor="zip" className={this.state.location.zipCode ? 'active' : ''}>
                                 Zip Code
                             </label>
                         </div>
-                        <div className="input-field col s3">
+                        {/* <div className="input-field col s3">
                             <input id="phone" type="number" className="validate"
-                                value={this.location.phone || ''}
+                                value={this.state.location.phone || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'phone') }}>
                             </input>
-                            <label htmlFor="phone" className={this.location.phone ? 'active' : ''}>
+                            <label htmlFor="phone" className={this.state.location.phone ? 'active' : ''}>
+                                Phone Number
+                            </label>
+                        </div> */}
+                        <div className="input-field col s3">
+                            <PhoneInput
+                                country="US"
+                                maxLength="14"
+                                value={this.state.location.phone}
+                                onChange={($event) => {
+                                    this.onChangeHandler($event, "phone");
+                                }}
+                            />
+                            <label
+                                htmlFor="phone"
+                                className={this.state.location.phone ? "active" : ""}
+                            >
                                 Phone Number
                             </label>
                         </div>
                         <div className="input-field col s6">
-                            <select id='zone' className='browser-default' value={this.location.timeZone || ''}
+                            <select id='zone' className='browser-default' value={this.state.location.timeZone || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'timeZone') }}>
                                 <option value="">Choose Time Zone</option>
                                 <option value="Central Daylight(GMT-5)">Central Daylight(GMT-5)</option>
@@ -174,18 +195,18 @@ export default class AddEditLocation extends Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
-                            <input id="time" className="validate" value={this.location.facilityTime || ''}
+                            <input id="time" className="validate" value={this.state.location.facilityTime || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'facilityTime') }}>
                             </input>
-                            <label htmlFor="time" className={this.location.facilityTime ? 'active' : ''}>
+                            <label htmlFor="time" className={this.state.location.facilityTime ? 'active' : ''}>
                                 Facility Time
                             </label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="pool" className="validate" value={this.location.appointment || ''}
+                            <input id="pool" className="validate" value={this.state.location.appointment || ''}
                                 onChange={($event) => { this.onChangeHandler($event, 'appointment') }}>
                             </input>
-                            <label htmlFor="pool" className={this.location.appointment ? 'active' : ''}>
+                            <label htmlFor="pool" className={this.state.location.appointment ? 'active' : ''}>
                                 Appointment Pool
                             </label>
                         </div>
@@ -193,10 +214,12 @@ export default class AddEditLocation extends Component {
                 </form>
                 <div className='action'>
                     <button onClick={this.props.handleClose} className='btn btn-danger'>Cancel</button>
-                    <button onClick={() => { this.props.handleSave(this.location) }} className='btn btn-primary'
-                        disabled={!this.location || !this.location.locationName ||
-                            this.location.locationName.trim() === ''
-                            || (this.location.zipCode && this.location.zipCode.length < 5)}>
+                    <button onClick={() => { this.props.handleSave(this.state.location) }} className='btn btn-primary'
+                        disabled={!this.state.location || !this.state.location.locationName ||
+                            this.state.location.locationName.trim() === ''
+                            || (this.state.location.zipCode && this.state.location.zipCode.length < 5)
+                            || (this.state.location.phone && this.state.location.phone.length < 12)
+                        }>
                         Save
                     </button>
                 </div>

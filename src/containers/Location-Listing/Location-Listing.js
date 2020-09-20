@@ -34,6 +34,7 @@ export default class LocationListing extends Component {
                                     if (r === true) {
                                         deleteRecord(this.props.location.locationId).then(event => {
                                             console.log('Deleted');
+                                            this.props.afterDelete(this.props.index);
                                         });
                                     }
                                 };
