@@ -186,6 +186,11 @@ img {
     background-color: white;
 }
 
+.fac-time label {
+    display: inline-block;
+    width: 30px;
+}
+
 [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
     opacity: initial;
     position: static;

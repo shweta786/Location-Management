@@ -14,7 +14,6 @@ class Locations extends Component {
         locations: [],
         locationToEdit: {},
         showAddEditModal: false,
-        showFacilityTimeModal: false
     }
 
     addEditLocationClickHandler = (location) => {
@@ -46,16 +45,10 @@ class Locations extends Component {
             showAddEditModal: false
         })
     }
-    // closeFacilityTimeModal = () => {
-    //     this.setState({
-    //         showFacilityTimeModal: false
-    //     })
-    // }
 
     shouldComponentUpdate(nextProp, nextState) {
         if (nextState.locations !== this.state.locations ||
-            nextState.showAddEditModal !== this.state.showAddEditModal ||
-            nextState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
+            nextState.showAddEditModal !== this.state.showAddEditModal)
             return true;
         return false;
     }
@@ -170,11 +163,10 @@ class Locations extends Component {
                                                 'timeZone': locationToUpdate.timeZone,
                                                 'facilityTime': locationToUpdate.facilityTime,
                                                 'appointment': locationToUpdate.appointment
-                                            }).then(
-                                                event => {
-                                                    this.closeAddEditModal();
-                                                    // alert('Location Updated successfully');
-                                                },
+                                            }).then(event => {
+                                                this.closeAddEditModal();
+                                                alert('Location Updated successfully');
+                                            },
                                                 error => {
                                                     alert('Error occurred while updating data in DB');
                                                     console.log(error);

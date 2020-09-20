@@ -24,6 +24,14 @@ export default class AddEditLocation extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProp, nextState) {
+        if (nextState.location !== this.state.location ||
+            nextState.newAppointmentInput !== this.state.newAppointmentInput ||
+            nextState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
+            return true;
+        return false;
+    }
+
     onChangeHandler = (event, fieldName) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.location));
         locationDup[fieldName] = event && event.target ? event.target.value : event;
@@ -65,9 +73,17 @@ export default class AddEditLocation extends Component {
         this.setState({ showFacilityTimeModal: false });
     }
 
+    saveFacilityTime = (facTime) => {
+        let locationDup = JSON.parse(JSON.stringify(this.state.location));
+        locationDup.facilityTime = facTime
+        this.setState({ location: locationDup });
+        this.closeFacilityTimeModal();
+    }
+
     render() {
         return (
             <Aux>
+                {console.log('HII')}
                 <div className='row add-loc'>
                     <span className={styles.text}>{this.state.location.locationId ? 'Edit' : 'Add'} Location</span>
                     <form className="col s12">
@@ -214,11 +230,9 @@ export default class AddEditLocation extends Component {
                         </div>
                         <div className="row">
                             <div className="input-field col s6">
-                                <input id="time" className="validate" value={this.state.location.facilityTime || ''}
-                                    onChange={($event) => { this.onChangeHandler($event, 'facilityTime') }}>
+                                <input id="time" className="validate" onClick={this.addEditFacilityTimeClickHandler}>
                                 </input>
-                                <label htmlFor="time" className={this.state.location.facilityTime ? 'active' : ''}
-                                    onClick={this.addEditFacilityTimeClickHandler}>
+                                <label htmlFor="time" className={this.state.location.facilityTime ? 'active' : ''}>
                                     Facility Time
                             </label>
                             </div>
@@ -264,7 +278,8 @@ export default class AddEditLocation extends Component {
                         <Modal>
                             <FacilityTime
                                 facilityTime={this.state.location.facilityTime}
-                                closeModal={this.closeFacilityTimeModal} />
+                                closeModal={this.closeFacilityTimeModal}
+                                saveFacilityTime={this.saveFacilityTime} />
                         </Modal>
                         : null
                 }
