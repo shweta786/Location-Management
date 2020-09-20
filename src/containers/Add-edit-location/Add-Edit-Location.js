@@ -17,6 +17,13 @@ export default class AddEditLocation extends Component {
         this.location[fieldName] = event.target.value;
     }
 
+    zipCodeMasking(event) {
+        var k = event ? event.which : window.event.keyCode;
+        if (k === 32 || (this.location.zipCode && this.location.zipCode.length >= 10)) {
+            event.preventDefault();
+        }
+    }
+
     render() {
         return (
             <div className='row add-loc'>
@@ -130,8 +137,10 @@ export default class AddEditLocation extends Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s3">
-                            <input id="zip" type="number" className="validate"
-                                value={this.location.zipCode || ''}
+                            <input id="zip" type="text" className="validate" pattern='[A-Za-z0-9]'
+                                title='5 to 10 alphanumeric characters allowed with no space'
+                                maxLength='10' value={this.location.zipCode || ''}
+                                onKeyPress={($event) => this.zipCodeMasking($event)}
                                 onChange={($event) => { this.onChangeHandler($event, 'zipCode') }}>
                             </input>
                             <label htmlFor="zip" className={this.location.zipCode ? 'active' : ''}>
@@ -186,11 +195,12 @@ export default class AddEditLocation extends Component {
                     <button onClick={this.props.handleClose} className='btn btn-danger'>Cancel</button>
                     <button onClick={() => { this.props.handleSave(this.location) }} className='btn btn-primary'
                         disabled={!this.location || !this.location.locationName ||
-                            this.location.locationName.trim() === ''}>
+                            this.location.locationName.trim() === ''
+                            || (this.location.zipCode && this.location.zipCode.length < 5)}>
                         Save
                     </button>
                 </div>
-            </div>
+            </div >
         )
     }
 
