@@ -20,6 +20,7 @@
 }
 
 .add-loc {
+    text-align: left;
     padding: 15px;
     padding-bottom: 0px;
     margin: 0px;
@@ -56,6 +57,10 @@
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+}
+
+.modal-main .modal-main {
+    width: 100%;
 }
   
 .display-block {
@@ -118,4 +123,73 @@ img {
 .fix-height {
     max-height: 100px;
     overflow-y: auto;
+}
+
+.ib-display {
+    display: inline-block;
+}
+
+.time-input {
+    width: 90px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    height: 30px !important;
+}
+
+.btn-light {
+    font-size: 13px;
+    background: white;
+    color: #2a608f;
+    border: 1px solid #2a608f;
+    border-radius: 5px;
+    padding: 0px 5px;
+    height: 28px;
+    line-height: 2;
+    margin-top: 0px;
+    text-transform: none;
+}
+.heading {
+    color: #2a608f;
+    font-weight: bold;
+}
+.format-selected {
+    background: #2a608f !important;
+    color: white !important;
+}
+
+.am {
+    background: #ccc;
+    padding: 4px 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.pm {
+    background: #ccc;
+    padding: 4px 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.m-8 {
+    margin-left: 8px;
+}
+
+.m-30 {
+    margin-left: 30px !important;
+}
+
+.fac-time .s8{
+    text-align: right;
+}
+
+.fac-time .btn:focus {
+    background-color: white;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    opacity: initial;
+    position: static;
+    vertical-align: middle;
+    pointer-events: all;
+    margin-right: 5px;
 }

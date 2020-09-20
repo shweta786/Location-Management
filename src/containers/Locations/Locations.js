@@ -26,6 +26,15 @@ class Locations extends Component {
         }
     }
 
+    // addEditFacilityTimeClickHandler = (facilityTime) => {
+    //     this.setState({ showAddEditModal: true });
+    //     if (location && location.locationId) {
+    //         this.setState({ locationToEdit: location });
+    //     } else {
+    //         this.setState({ locationToEdit: {} });
+    //     }
+    // }
+
     removeLocationFromList = (index) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.locations));
         locationDup.splice(index, 1);
@@ -34,9 +43,14 @@ class Locations extends Component {
 
     closeAddEditModal = () => {
         this.setState({
-            showAddEditModal: false,
+            showAddEditModal: false
         })
     }
+    // closeFacilityTimeModal = () => {
+    //     this.setState({
+    //         showFacilityTimeModal: false
+    //     })
+    // }
 
     shouldComponentUpdate(nextProp, nextState) {
         if (nextState.locations !== this.state.locations ||
