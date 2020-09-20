@@ -25,15 +25,6 @@ class Locations extends Component {
         }
     }
 
-    // addEditFacilityTimeClickHandler = (facilityTime) => {
-    //     this.setState({ showAddEditModal: true });
-    //     if (location && location.locationId) {
-    //         this.setState({ locationToEdit: location });
-    //     } else {
-    //         this.setState({ locationToEdit: {} });
-    //     }
-    // }
-
     removeLocationFromList = (index) => {
         let locationDup = JSON.parse(JSON.stringify(this.state.locations));
         locationDup.splice(index, 1);
@@ -47,8 +38,8 @@ class Locations extends Component {
     }
 
     shouldComponentUpdate(nextProp, nextState) {
-        if (nextState.locations !== this.state.locations ||
-            nextState.showAddEditModal !== this.state.showAddEditModal)
+        if (JSON.stringify(nextState.locations) !== JSON.stringify(this.state.locations)
+            || nextState.showAddEditModal !== this.state.showAddEditModal)
             return true;
         return false;
     }
@@ -71,7 +62,6 @@ class Locations extends Component {
                     );
                     return (
                         <div className={styles.container}>
-
                             <Header onAddLocClick={this.addEditLocationClickHandler}></Header>
                             {
                                 !this.state.locations || this.state.locations.length < 1
@@ -102,7 +92,7 @@ class Locations extends Component {
                                         )}
                                         <div className='row loc-list'>
                                             <span>
-                                                Items Per Page 10
+                                                Pagination to be implemented
                                             </span>
                                         </div>
 

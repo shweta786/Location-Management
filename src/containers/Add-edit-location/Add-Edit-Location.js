@@ -25,7 +25,7 @@ export default class AddEditLocation extends Component {
     }
 
     shouldComponentUpdate(nextProp, nextState) {
-        if (nextState.location !== this.state.location ||
+        if (JSON.stringify(nextState.location) !== JSON.stringify(this.state.location) ||
             nextState.newAppointmentInput !== this.state.newAppointmentInput ||
             nextState.showFacilityTimeModal !== this.state.showFacilityTimeModal)
             return true;
@@ -83,7 +83,6 @@ export default class AddEditLocation extends Component {
     render() {
         return (
             <Aux>
-                {console.log('HII')}
                 <div className='row add-loc'>
                     <span className={styles.text}>{this.state.location.locationId ? 'Edit' : 'Add'} Location</span>
                     <form className="col s12">
