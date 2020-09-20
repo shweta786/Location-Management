@@ -1,28 +1,26 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import styles from './Add-Edit-Location.module.css';
 
-export default class AddEditLocation extends PureComponent {
+export default class AddEditLocation extends Component {
 
-    state = {
-        location: {}
-    }
+    location = {};
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.location) {
-            this.setState({ location: props.location });
+    componentDidMount() {
+        console.log('ComponentDidMount');
+        if (this.props.location && this.props.locationId) {
+            this.location = this.props.location;
         }
-        return state;
     }
 
     render() {
         return (
             <div className='row add-loc'>
-                <span className={styles.text}>Add Locations</span>
+                <span className={styles.text}>{this.location.locationId ? 'Edit' : 'Add'} Location</span>
                 <form className="col s12">
                     <div className="row">
                         <div className="input-field col s12">
                             <input id="loc-name" type="text" className="validate"
-                                value={this.state.location.locationName}></input>
+                                value={this.location.locationName}></input>
                             <label htmlFor="loc-name">Location Name</label>
                         </div>
                     </div>

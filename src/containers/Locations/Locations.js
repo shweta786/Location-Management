@@ -12,19 +12,16 @@ class Locations extends Component {
 
     state = {
         locations: [],
+        locationToEdit: {},
         showAddEditModal: false,
         showFacilityTimeModal: false
     }
 
-    addLocationClickHandler = () => {
-        // toggling showAddEditModal from its last state
-        this.setState((prevState, props) => {
-            return {
-                locations: [],
-                showAddEditModal: !prevState.showAddEditModal,
-                showFacilityTimeModal: false
-            }
-        });
+    addEditLocationClickHandler = (location) => {
+        this.setState({ showAddEditModal: true });
+        if (location && location.locationId) {
+            this.setState({ locationToEdit: location });
+        }
     }
 
     closeAddEditModal = () => {
@@ -47,8 +44,8 @@ class Locations extends Component {
                     );
                     return (
                         <div className={styles.container}>
-                            
-                            <Header onAddLocClick={this.addLocationClickHandler}></Header>
+
+                            <Header onAddLocClick={this.addEditLocationClickHandler}></Header>
                             {
                                 !this.state.locations || this.state.locations.length < 1
                                     ? <NoLocation></NoLocation>
@@ -56,63 +53,100 @@ class Locations extends Component {
                                         <div className='row loc-list'>
                                             <div className='col s1'>
                                             </div>
-                                            <div className='col s3'>
+                                            <div className='col s3 tl'>
                                                 <b>Location Name</b>
                                             </div>
-                                            <div className='col s3'>
+                                            <div className='col s4 tl'>
                                                 <b>Address</b>
                                             </div>
                                             <div className='col s3'>
                                                 <b>Phone No.</b>
                                             </div>
-                                            <div className='col s2'>
+                                            <div className='col s1'>
                                             </div>
                                         </div>
                                         {this.state.locations.map((loc, index) =>
                                             <LocationListing
                                                 location={loc}
                                                 index={index}
-                                                key={loc.locationId} />)
-                                        }
+                                                key={loc.locationId}
+                                                onEditClick={this.addEditLocationClickHandler} />
+                                        )}
                                         <div className='row loc-list'>
                                             <span>
                                                 Items Per Page 10
                                             </span>
                                         </div>
+
                                     </Aux>
                             }
 
                             <AccessDB objectStore="locations">
-                                {({ add }) => {
-                                    const saveLocationHandler = (locationToAdd) => {
-                                        add({
-                                            'locationName': 'locationName', 'address1': 'address1',
-                                            'address2': 'address2', 'suite': 'suite',
-                                            'city': 'city', 'state': 'state',
-                                            'zipCode': '103044', 'phone': '2847894289',
-                                            'timeZone': 'timeZone', 'facilityTime': 'facilityTime',
-                                            'appointment': 'appointment'
-                                        }).then(
-                                            event => {
-                                                console.log('ID Generated: ', event);
-                                            },
-                                            error => {
-                                                alert('Error occurred while saving data in DB');
-                                                console.log(error);
-                                            }
-                                        );
-                                    };
+                                {!this.state.locationToEdit || !this.state.locationToEdit.locationId
+                                    // ADD LOCATION CASE
+                                    ? ({ add }) => {
+                                        const saveLocationHandler = (locationToAdd) => {
+                                            add({
+                                                'locationName': 'locationName', 'address1': 'address1',
+                                                'address2': 'address2', 'suite': 'suite',
+                                                'city': 'city', 'state': 'state',
+                                                'zipCode': '103044', 'phone': '2847894289',
+                                                'timeZone': 'timeZone', 'facilityTime': 'facilityTime',
+                                                'appointment': 'appointment'
+                                            }).then(
+                                                event => {
+                                                    this.closeAddEditModal();
+                                                    alert('Location Created successfully');
+                                                    console.log('ID Generated: ', event);
+                                                },
+                                                error => {
+                                                    alert('Error occurred while saving data in DB');
+                                                    console.log(error);
+                                                }
+                                            );
+                                        };
 
-                                    return <Modal
-                                        handleSave={saveLocationHandler}
-                                        handleClose={this.closeAddEditModal}
-                                        show={this.state.showAddEditModal}>
-                                        <AddEditLocation>
-                                        </AddEditLocation>
-                                    </Modal>
-                                    // return <button onClick={handleClick}>Add</button>;
-                                }}
-                            </AccessDB>;
+                                        return this.state.showAddEditModal ? <Modal
+                                            handleSave={saveLocationHandler}
+                                            handleClose={this.closeAddEditModal}
+                                            show={this.state.showAddEditModal}>
+                                            <AddEditLocation />
+                                        </Modal> : null
+                                    }
+
+                                    // EDIT LOCATION CASE
+                                    : ({ update }) => {
+                                        const saveLocationHandler = (locationToUpdate) => {
+                                            update({
+                                                'locationId': this.state.locationToEdit.locationId,
+                                                'locationName': 'locationNameDUP', 'address1': 'address1DUP',
+                                                'address2DUP': 'address2', 'suite': 'suiteDUP',
+                                                'city': 'cityDUP', 'state': 'stateDUP',
+                                                'zipCode': '10304400', 'phone': '284789428900',
+                                                'timeZone': 'timeZoneDUP', 'facilityTime': 'facilityTimeDUP',
+                                                'appointment': 'appointmentDUP'
+                                            }).then(
+                                                event => {
+                                                    this.closeAddEditModal();
+                                                    alert('Location Updated successfully');
+                                                },
+                                                error => {
+                                                    alert('Error occurred while updating data in DB');
+                                                    console.log(error);
+                                                }
+                                            );
+                                        };
+
+                                        return this.state.showAddEditModal ? <Modal
+                                            handleSave={saveLocationHandler}
+                                            handleClose={this.closeAddEditModal}
+                                            show={this.state.showAddEditModal}>
+                                            <AddEditLocation location={this.state.locationToEdit} />
+                                        </Modal> : null
+                                    }
+                                }
+
+                            </AccessDB>
 
                         </div>
                     );
