@@ -7,10 +7,14 @@ export default class AddEditLocation extends Component {
 
     componentDidMount() {
         console.log('ComponentDidMount');
-        if (this.props.location && this.props.locationId) {
+        if (this.props.location && this.props.location.locationId) {
             this.location = this.props.location;
+        } else {
+            this.location = {};
         }
     }
+
+    onChangeHandler() { }
 
     render() {
         return (
@@ -20,56 +24,79 @@ export default class AddEditLocation extends Component {
                     <div className="row">
                         <div className="input-field col s12">
                             <input id="loc-name" type="text" className="validate"
-                                value={this.location.locationName}></input>
-                            <label htmlFor="loc-name">Location Name</label>
+                                value={this.location.locationName || ''}
+                                onChange={this.onChangeHandler}></input>
+                            <label htmlFor="loc-name" className={this.location.locationName ? 'active' : ''}>
+                                Location Name
+                            </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
                             <input id="address-1" type="text" className="validate"></input>
-                            <label htmlFor="address-1">Address Line 1</label>
+                            <label htmlFor="address-1" className={this.location.locationName ? 'active' : ''}>
+                                Address Line 1
+                            </label>
                         </div>
                         <div className="input-field col s6">
                             <input id="suite" type="text" className="validate"></input>
-                            <label htmlFor="suite">Suite No.</label>
+                            <label htmlFor="suite" className={this.location.locationName ? 'active' : ''}>
+                                Suite No.
+                            </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
                             <input id="address-2" type="password" className="validate"></input>
-                            <label htmlFor="address-2">Address Line 2</label>
+                            <label htmlFor="address-2" className={this.location.locationName ? 'active' : ''}>
+                                Address Line 2
+                            </label>
                         </div>
                         <div className="input-field col s3">
                             <input id="city" type="password" className="validate"></input>
-                            <label htmlFor="city">City</label>
+                            <label htmlFor="city" className={this.location.locationName ? 'active' : ''}>
+                                City
+                            </label>
                         </div>
                         <div className="input-field col s3">
                             <input id="state" type="password" className="validate"></input>
-                            <label htmlFor="state">State</label>
+                            <label htmlFor="state" className={this.location.locationName ? 'active' : ''}>
+                                State
+                            </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s3">
                             <input id="zip" type="password" className="validate"></input>
-                            <label htmlFor="zip">Zip Code</label>
+                            <label htmlFor="zip" className={this.location.locationName ? 'active' : ''}>
+                                Zip Code
+                            </label>
                         </div>
                         <div className="input-field col s3">
                             <input id="phone" type="password" className="validate"></input>
-                            <label htmlFor="phone">Phone Number</label>
+                            <label htmlFor="phone" className={this.location.locationName ? 'active' : ''}>
+                                Phone Number
+                            </label>
                         </div>
                         <div className="input-field col s6">
                             <input id="zone" type="password" className="validate"></input>
-                            <label htmlFor="zone">Time Zone</label>
+                            <label htmlFor="zone" className={this.location.locationName ? 'active' : ''}>
+                                Time Zone
+                            </label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
                             <input id="time" type="text" className="validate"></input>
-                            <label htmlFor="time">Facility Time</label>
+                            <label htmlFor="time" className={this.location.locationName ? 'active' : ''}>
+                                Facility Time
+                            </label>
                         </div>
                         <div className="input-field col s6">
                             <input id="pool" type="text" className="validate"></input>
-                            <label htmlFor="pool">Appointment Pool</label>
+                            <label htmlFor="pool" className={this.location.locationName ? 'active' : ''}>
+                                Appointment Pool
+                            </label>
                         </div>
                     </div>
                 </form>

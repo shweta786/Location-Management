@@ -110,7 +110,7 @@ class Locations extends Component {
                                             handleSave={saveLocationHandler}
                                             handleClose={this.closeAddEditModal}
                                             show={this.state.showAddEditModal}>
-                                            <AddEditLocation />
+                                            <AddEditLocation location={{}} />
                                         </Modal> : null
                                     }
 
