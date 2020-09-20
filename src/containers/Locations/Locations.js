@@ -87,12 +87,17 @@ class Locations extends Component {
                                     ? ({ add }) => {
                                         const saveLocationHandler = (locationToAdd) => {
                                             add({
-                                                'locationName': 'locationName', 'address1': 'address1',
-                                                'address2': 'address2', 'suite': 'suite',
-                                                'city': 'city', 'state': 'state',
-                                                'zipCode': '103044', 'phone': '2847894289',
-                                                'timeZone': 'timeZone', 'facilityTime': 'facilityTime',
-                                                'appointment': 'appointment'
+                                                'locationName': locationToAdd.locationName,
+                                                'address1': locationToAdd.address1,
+                                                'address2': locationToAdd.address2,
+                                                'suite': locationToAdd.suite,
+                                                'city': locationToAdd.city,
+                                                'state': locationToAdd.state,
+                                                'zipCode': locationToAdd.zipCode,
+                                                'phone': locationToAdd.phone,
+                                                'timeZone': locationToAdd.timeZone,
+                                                'facilityTime': locationToAdd.facilityTime,
+                                                'appointment': locationToAdd.appointment
                                             }).then(
                                                 event => {
                                                     this.closeAddEditModal();
@@ -118,13 +123,18 @@ class Locations extends Component {
                                     : ({ update }) => {
                                         const saveLocationHandler = (locationToUpdate) => {
                                             update({
-                                                'locationId': this.state.locationToEdit.locationId,
-                                                'locationName': 'locationNameDUP', 'address1': 'address1DUP',
-                                                'address2': 'address2DUP', 'suite': 'suiteDUP',
-                                                'city': 'cityDUP', 'state': 'stateDUP',
-                                                'zipCode': '10304400', 'phone': '284789428900',
-                                                'timeZone': 'Pacific Daylight(GMT-8)', 'facilityTime': 'facilityTimeDUP',
-                                                'appointment': 'appointmentDUP'
+                                                'locationId': locationToUpdate.locationId,
+                                                'locationName': locationToUpdate.locationName,
+                                                'address1': locationToUpdate.address1,
+                                                'address2': locationToUpdate.address2,
+                                                'suite': locationToUpdate.suite,
+                                                'city': locationToUpdate.city,
+                                                'state': locationToUpdate.state,
+                                                'zipCode': locationToUpdate.zipCode,
+                                                'phone': locationToUpdate.phone,
+                                                'timeZone': locationToUpdate.timeZone,
+                                                'facilityTime': locationToUpdate.facilityTime,
+                                                'appointment': locationToUpdate.appointment
                                             }).then(
                                                 event => {
                                                     this.closeAddEditModal();
